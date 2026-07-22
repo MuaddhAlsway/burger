@@ -2,17 +2,14 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Beef, CircleDot, Wine, Leaf } from 'lucide-react'
+import { useLang } from '../i18n/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const features = [
-  { icon: Beef, text: 'A5 Japanese Wagyu, hand-selected' },
-  { icon: CircleDot, text: '24-month aged Comte from Jura' },
-  { icon: Leaf, text: 'Micro-herbs from vertical farms' },
-  { icon: Wine, text: 'Champagne vinegar reduction' },
-]
+const icons = [Beef, CircleDot, Leaf, Wine]
 
-export default function LimitedEdition() {
+export default function LimitedEdition({ onReserve }) {
+  const { t } = useLang()
   const sectionRef = useRef(null)
   const contentRef = useRef(null)
 
@@ -20,13 +17,9 @@ export default function LimitedEdition() {
     const ctx = gsap.context(() => {
       gsap.fromTo(contentRef.current.children,
         { opacity: 0, y: 50 },
-        {
-          scrollTrigger: { trigger: contentRef.current, start: 'top 85%' },
-          opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out'
-        }
+        { scrollTrigger: { trigger: contentRef.current, start: 'top 85%' }, opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out' }
       )
     }, sectionRef)
-
     return () => ctx.revert()
   }, [])
 
@@ -40,36 +33,27 @@ export default function LimitedEdition() {
             </div>
             <div className="limited-badge">
               <span className="limited-badge-number">7</span>
-              <span className="limited-badge-text">Per Night</span>
+              <span className="limited-badge-text">{t.limited.badgePerNight}</span>
             </div>
           </div>
-
           <div className="limited-info">
-            <div className="overline">Limited Edition</div>
-            <h2 className="heading-lg">The Obsidian</h2>
-            <p className="body-lg">
-              Available only seven times per evening. A5 wagyu, black truffle,
-              edible gold leaf, and a secret sauce that took our chef three
-              years to perfect. This is not a meal. This is an event.
-            </p>
-
+            <div className="overline">{t.limited.overline}</div>
+            <h2 className="heading-lg">{t.limited.title}</h2>
+            <p className="body-lg">{t.limited.subtitle}</p>
             <div className="limited-features">
-              {features.map((f, i) => {
-                const Icon = f.icon
+              {t.limited.features.map((f, i) => {
+                const Icon = icons[i]
                 return (
                   <div className="limited-feature" key={i}>
-                    <div className="limited-feature-icon">
-                      <Icon size={18} strokeWidth={1.5} color="var(--copper)" />
-                    </div>
-                    <span className="limited-feature-text">{f.text}</span>
+                    <div className="limited-feature-icon"><Icon size={18} strokeWidth={1.5} color="var(--copper)" /></div>
+                    <span className="limited-feature-text">{f}</span>
                   </div>
                 )
               })}
             </div>
-
             <div className="limited-cta">
-              <button className="btn-copper">Reserve The Obsidian</button>
-              <button className="btn-outline">Learn More</button>
+              <button className="btn-copper" onClick={onReserve}>{t.limited.reserveCta}</button>
+              <button className="btn-outline" onClick={() => document.getElementById('philosophy')?.scrollIntoView({ behavior: 'smooth' })}>{t.limited.learnCta}</button>
             </div>
           </div>
         </div>

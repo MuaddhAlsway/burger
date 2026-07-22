@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { LanguageProvider, useLang } from './i18n/LanguageContext'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import SignatureCollection from './components/SignatureCollection'
@@ -13,7 +14,8 @@ import Footer from './components/Footer'
 import ReservationModal from './components/ReservationModal'
 import './App.css'
 
-function App() {
+function AppInner() {
+  const { t } = useLang()
   const [loading, setLoading] = useState(true)
   const [reserveOpen, setReserveOpen] = useState(false)
 
@@ -28,8 +30,8 @@ function App() {
         <div className="loader-content">
           <div className="loader-line loader-line-1"></div>
           <div className="loader-line loader-line-2"></div>
-          <div className="loader-brand">BLACK DISTRICT</div>
-          <div className="loader-sub">Crafted Beyond Ordinary</div>
+          <div className="loader-brand">{t.loader.brand}</div>
+          <div className="loader-sub">{t.loader.sub}</div>
           <div className="loader-progress">
             <div className="loader-progress-fill"></div>
           </div>
@@ -43,7 +45,7 @@ function App() {
       <Navbar onReserve={() => setReserveOpen(true)} />
       <Hero onReserve={() => setReserveOpen(true)} />
       <SignatureCollection />
-      <LimitedEdition />
+      <LimitedEdition onReserve={() => setReserveOpen(true)} />
       <IngredientPhilosophy />
       <ChefSelection />
       <CustomerExperience />
@@ -53,6 +55,14 @@ function App() {
       <Footer onReserve={() => setReserveOpen(true)} />
       <ReservationModal isOpen={reserveOpen} onClose={() => setReserveOpen(false)} />
     </div>
+  )
+}
+
+function App() {
+  return (
+    <LanguageProvider>
+      <AppInner />
+    </LanguageProvider>
   )
 }
 

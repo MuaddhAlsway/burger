@@ -510,7 +510,6 @@
   padding: 48px 36px;
   position: relative;
   overflow: hidden;
-  cursor: pointer;
   transition: var(--transition-slow);
 }
 
@@ -1363,11 +1362,11 @@
 }
 
 .gallery-popup-prev {
-  left: -60px;
+  left: -50px;
 }
 
 .gallery-popup-next {
-  right: -60px;
+  right: -50px;
 }
 
 .gallery-popup-counter {
@@ -1813,6 +1812,11 @@
   transition: var(--transition-fast);
   outline: none;
   appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
   cursor: pointer;
 }
 
@@ -1840,6 +1844,10 @@
 
 /* --- RESPONSIVE --- */
 @media (max-width: 1024px) {
+  .navbar .nav-brand.nav-brand--hidden {
+    display: none;
+  }
+
   .hero-burger-display {
     display: none;
   }
@@ -1906,6 +1914,11 @@
   }
 
   .nav-links {
+    display: none;
+  }
+
+  .navbar .lang-toggle,
+  .navbar .nav-reserve-btn {
     display: none;
   }
 
@@ -1996,5 +2009,187 @@
 
   .chef-credentials {
     flex-direction: column;
+  }
+}
+
+/* ===== MOBILE NAV ===== */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.mobile-nav-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  max-width: 85vw;
+  height: 100vh;
+  background: var(--matte-black);
+  z-index: 1002;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+
+html[dir="rtl"] .mobile-nav {
+  right: auto;
+  left: 0;
+  transform: translateX(-100%);
+}
+
+html[dir="rtl"] .mobile-nav.open {
+  transform: translateX(0);
+}
+
+.mobile-nav.open {
+  transform: translateX(0);
+}
+
+.mobile-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+
+.mobile-nav-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-nav-close:hover {
+  opacity: 0.6;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mobile-nav-links a {
+  display: block;
+  padding: 18px 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: var(--silver);
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: color 0.3s ease;
+}
+
+.mobile-nav-links a:hover {
+  color: var(--copper);
+}
+
+.mobile-nav-footer {
+  margin-top: auto;
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ===== RTL FLIP RULES ===== */
+html[dir="rtl"] .overline::before {
+  transform: rotate(45deg);
+}
+
+html[dir="rtl"] .hero-scroll-hint {
+  left: clamp(20px, 4vw, 60px);
+  right: auto;
+}
+
+html[dir="rtl"] .hero-burger-display {
+  right: auto;
+  left: 8%;
+}
+
+html[dir="rtl"] .hero-content {
+  text-align: right;
+}
+
+html[dir="rtl"] .hero-actions {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .hero-overline {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+html[dir="rtl"] .gallery-popup-prev {
+  left: auto;
+  right: -60px;
+}
+
+html[dir="rtl"] .gallery-popup-next {
+  right: auto;
+  left: -60px;
+}
+
+html[dir="rtl"] .hero-scroll-text {
+  writing-mode: vertical-rl;
+}
+
+html[dir="rtl"] .nav-brand-text {
+  letter-spacing: 4px;
+}
+
+html[dir="rtl"] .btn-copper,
+html[dir="rtl"] .btn-outline,
+html[dir="rtl"] .modal-submit,
+html[dir="rtl"] .nav-reserve-btn {
+  font-size: 0.8rem;
+}
+
+html[dir="rtl"] .collection-card-number {
+  direction: ltr;
+}
+
+html[dir="rtl"] .limited-badge-number {
+  direction: ltr;
+}
+
+html[dir="rtl"] .location-card-hours {
+  direction: ltr;
+}
+
+html[dir="rtl"] .hero-stat-number {
+  direction: ltr;
+}
+
+html[dir="rtl"] .loyalty-card-points {
+  direction: ltr;
+}
+
+@media (max-width: 768px) {
+  html[dir="rtl"] .gallery-popup-prev {
+    left: 12px;
+    right: auto;
+  }
+
+  html[dir="rtl"] .gallery-popup-next {
+    right: 12px;
+    left: auto;
   }
 }
